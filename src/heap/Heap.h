@@ -35,10 +35,17 @@ typedef struct Heap {
 static Heap *HEAP;
 
 /*
+  Allocates a new memory block for the given descriptor and returns a pointer to it.
+  Note that alloc will actually consume more memory than specified in the descriptor,
+  because of book-keeping.
+*/
+void* alloc(TypeDescriptor *descriptor);
+
+/*
   Allocates a new memory block with the given size and returns a pointer to it.
   Note that alloc will actually consume more memory than size, because of book-keeping.
 */
-void* alloc(TypeDescriptor *descriptor);
+void *alloc_size(uint32_t size);
 
 /*
   Performs one iteration of mark and sweep.

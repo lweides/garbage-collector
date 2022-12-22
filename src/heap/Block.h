@@ -72,7 +72,7 @@ void clear_marked(Block *block);
 /*
   Clears the bytes managed by block.
 */
-void clear(Block *block);
+void clear(Block *block, uint32_t size);
 
 /*
   Returns the typeDescriptor installed in the block.

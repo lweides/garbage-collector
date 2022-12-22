@@ -21,8 +21,7 @@ void clear_marked(Block *block) {
   block->descriptor = (TypeDescriptor*) (pointer & ~MARKED_BIT_MASK);
 }
 
-void clear(Block *block) {
-  uint32_t size = get_type_descriptor(block)->size;
+void clear(Block *block, uint32_t size) {
   memset(pointer_from_block(block), 0, size);
 }
 

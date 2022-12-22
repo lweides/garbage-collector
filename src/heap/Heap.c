@@ -2,43 +2,17 @@
 #include "MarkAndSweep.h"
 #include "../utils.h"
 
-// void* alloc(TypeDescriptor *descriptor) {
-//   Block *prev = HEAP;
-//   Block *current = HEAP->free.next;
-//   uint32_t size = descriptor->size;
-//   // search for fitting block
-//   while (block_too_small(current, size + BLOCK_OVERHEAD_IN_BYTES) && current != HEAP) {
-//     prev = current;
-//     current = current->free.next;
-//   }
-
-//   if (block_too_small(current, size + BLOCK_OVERHEAD_IN_BYTES)) {
-//     return NULL;
-//   }
-
-//   uint32_t new_block_size = current->descriptor->size - size - BLOCK_OVERHEAD_IN_BYTES;
-//   if (new_block_size <= MIN_BLOCK_SIZE_IN_BYTES) {
-//     // resulting block would be too small, we use the whole block and accept the internal memory fragmentation
-//     prev->free.next = current->free.next;
-//     current->descriptor = descriptor;
-//     // TODO set used_bit
-//     // TODO zero bytes
-//     return pointer_from_block(current);
-//   }
-
-//   // split old block in two new blocks
-//   current->descriptor->size = new_block_size;
-//   Block *new_block = add_offset_in_bytes(current, new_block_size);
-//   new_block->descriptor = descriptor;
-//   // TODO set used_bit
-//   // TODO zero bytes
-//   return pointer_from_block(new_block);
-// }
-
 void* alloc(TypeDescriptor *descriptor) {
+  uint32_t size = descriptor->size;
+  void *pointer = alloc_size(size);
+  Block *block = block_from_pointer(pointer);
+  block->descriptor = descriptor;
+  return pointer;
+}
+
+void* alloc_size(uint32_t size) {
   Block *prev = NULL;
   Block *current = HEAP->free_list;
-  uint32_t size = descriptor->size;
   // search for fitting block
   while (current != NULL && block_too_small(current, size)) {
     prev = current;
@@ -60,8 +34,7 @@ void* alloc(TypeDescriptor *descriptor) {
       prev->free.next = current->free.next;
     }
 
-    current->descriptor = descriptor;
-    clear(current);
+    clear(current, size);
     
     return pointer_from_block(current);
   }
@@ -70,8 +43,7 @@ void* alloc(TypeDescriptor *descriptor) {
   current->descriptor->size = new_block_size;
   Block *new_block = add_offset_in_bytes(current, new_block_size + BLOCK_OVERHEAD_IN_BYTES);
 
-  new_block->descriptor = descriptor;
-  clear(new_block);
+  clear(new_block, size);
 
   return pointer_from_block(new_block);
 }
