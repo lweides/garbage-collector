@@ -53,6 +53,13 @@ typedef struct Block {
 bool is_marked(Block *block);
 
 /*
+  Returns true if the block is free, false otherwise.
+  Being free can be determined from the typeDescriptor,
+  if it points inside the Block, the block is considered free.
+*/
+bool is_free(Block *block);
+
+/*
   Sets the marked bit of the block.
 */
 void set_marked(Block *block);

@@ -6,6 +6,11 @@ bool is_marked(Block *block) {
   return (pointer >> 1) & MARKED_BIT_MASK;
 }
 
+bool is_free(Block *block) {
+  uintptr_t pointer = (uintptr_t) get_type_descriptor(block);
+  return pointer == (uintptr_t) add_offset_in_bytes(block, BLOCK_OVERHEAD_IN_BYTES);
+}
+
 void set_marked(Block *block) {
   uintptr_t pointer = (uintptr_t) get_type_descriptor(block);
   block->descriptor = (TypeDescriptor*) (pointer | MARKED_BIT_MASK);

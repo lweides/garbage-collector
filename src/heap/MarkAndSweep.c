@@ -65,6 +65,7 @@ void traverse_heap_debug(Heap *heap) {
     printf("Block %d has descriptor at: %p\n", block_counter, current->descriptor);
     printf("Block %d has size %d\n", block_counter, block_size(current));
     printf("Block %d contains a type of size %d\n", block_counter, current->descriptor->size);
+    printf("Block %d is free: %d\n", block_counter, is_free(current));
     
 
     printf("======== BLOCK END ========\n");
