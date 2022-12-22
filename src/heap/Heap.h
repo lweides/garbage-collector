@@ -35,6 +35,12 @@ typedef struct Heap {
 static Heap *HEAP;
 
 /*
+  Allocates a new memory block for the descriptor with the given name
+  Returns a pointer to it.
+*/
+void* alloc_by_name(char *name);
+
+/*
   Allocates a new memory block for the given descriptor and returns a pointer to it.
   Note that alloc will actually consume more memory than specified in the descriptor,
   because of book-keeping.

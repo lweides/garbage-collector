@@ -1,4 +1,5 @@
 #include "MarkAndSweep.h"
+#include "../type_descriptor/TypeRegistry.h"
 #include "../utils.h"
 
 #include <stdio.h>
@@ -66,6 +67,7 @@ void traverse_heap_debug(Heap *heap) {
     printf("Block %d has size %d\n", block_counter, block_size(current));
     printf("Block %d contains a type of size %d\n", block_counter, current->descriptor->size);
     printf("Block %d is free: %d\n", block_counter, is_free(current));
+    printf("Block %d contains type of name: \"%s\"\n", block_counter, name_of_descriptor(current->descriptor));
     
 
     printf("======== BLOCK END ========\n");

@@ -4,6 +4,7 @@
 
 #include "heap/Heap.h"
 #include "type_descriptor/TypeDescriptor.h"
+#include "type_descriptor/TypeRegistry.h"
 #include "heap/MarkAndSweep.h"
 
 typedef struct List {
@@ -17,19 +18,19 @@ int main() {
 
   traverse_heap_debug(get_heap());
 
-  // uint32_t offsets[] = { 0, offsetof(List, next), 0 };
-  // uint32_t size = sizeof(List);
+  printf("Setup list desc\n");
   uint32_t offsets[] = { 0, offsetof(List, next), 0 };
   uint32_t size = sizeof(List);
   uint32_t pointer_count = 1;
   TypeDescriptor *list_descriptor = new_type_descriptor(offsets, size, pointer_count);
-  List *list = alloc(list_descriptor);
+  register_descriptor(list_descriptor, "listDesc");
+  List *list = alloc_by_name("listDesc");
 
   List *current = list;
 
   for (int i = 0; i < 5; i++) {
     current->value = i;
-    current->next = alloc(list_descriptor);
+    current->next = alloc_by_name("listDesc");
 
     current = current->next;
   }

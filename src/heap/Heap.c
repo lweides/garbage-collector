@@ -1,6 +1,12 @@
 #include "Heap.h"
 #include "MarkAndSweep.h"
+#include "../type_descriptor/TypeRegistry.h"
 #include "../utils.h"
+
+void* alloc_by_name(char *name) {
+  TypeDescriptor *descriptor = descriptor_by_name(name);
+  return alloc(descriptor);
+}
 
 void* alloc(TypeDescriptor *descriptor) {
   uint32_t size = descriptor->size;
@@ -102,6 +108,8 @@ bool init_heap(uint32_t size) {
   initial_block->free.next = NULL;
   initial_block->descriptor = add_offset_in_bytes(initial_block, sizeof(TypeDescriptor*));
   initial_block->descriptor->size = size - BLOCK_OVERHEAD_IN_BYTES;
+
+  init_type_registry();
 
   return true;
 }
