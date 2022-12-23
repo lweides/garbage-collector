@@ -1,6 +1,4 @@
-#include <stdint.h>
 #include <stdio.h>
-#include <stddef.h>
 
 #include "heap/Heap.h"
 #include "example/types.h"
