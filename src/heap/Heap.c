@@ -3,6 +3,8 @@
 #include "../type_descriptor/TypeRegistry.h"
 #include "../utils.h"
 
+#include <stdio.h>
+
 void* alloc_by_name(char *name) {
   TypeDescriptor *descriptor = descriptor_by_name(name);
   return alloc(descriptor);
@@ -60,32 +62,9 @@ void gc(void **roots) {
   while ((root = roots[i++]) != NULL) {
     mark(root);
   }
+  mark(REGISTRY);
+
   sweep(HEAP);
-}
-
-void dealloc(void *pointer) {
-  Block *block = block_from_pointer(pointer);
-   Block *right = next_block(block);
-  // TODO get left neighbour
-  Block *current = HEAP->free_list;
-  Block *prev = NULL;
-  bool right_found_tombstone = false;
-  while (current != NULL && current->free.next != block) {
-    if (current == right) {
-      right_found_tombstone = true;
-    }
-    prev = current;
-    current = current->free.next;
-  }
-
-  if (current == NULL) {
-    // left neighbour is not in free list, we add the block at the end
-    // prev cannot be null, as that would mean that HEAP->free_list was null // TODO am I sure?
-    current->free.next = prev->free.next;
-    prev->free.next = current;
-  }
-  Block *left = NULL;
- 
 }
 
 bool init_heap(uint32_t size) {
@@ -120,10 +99,76 @@ void free_heap() {
   free(HEAP); 
 }
 
-bool block_too_small(Block *block, uint32_t size) {
+static bool block_too_small(Block *block, uint32_t size) {
   return block->descriptor->size < size + BLOCK_OVERHEAD_IN_BYTES;
 }
 
-Heap* get_heap() {
-  return HEAP;
+void dump() {
+  printf("======== HEAP DUMP ========\n");
+
+  uint32_t heap_size = HEAP->heap_size;
+  uintptr_t heap_start = HEAP->heap_start;
+  uintptr_t heap_end = heap_start + heap_size;
+  printf("Heap starts at %#lx\n", heap_start);
+  printf("Heap has size %d\n", heap_size);
+  printf("Heap ends at %#lx\n\n", heap_end);
+
+  printf("======== ALL OBJECTS ========\n");
+  uint32_t block_counter = 0;
+  Block *current = (Block*) heap_start;
+  uint32_t size = 0;
+
+  while ((uintptr_t) current < heap_end) {
+    if (is_free(current)) {
+      current = next_block(current);
+      continue;
+    }
+
+    TypeDescriptor *descriptor = current->descriptor;
+
+    void *pointer = pointer_from_block(current);
+    uint8_t *first_byte = add_offset_in_bytes(pointer, 0);
+    uint8_t *second_byte = add_offset_in_bytes(pointer, 1);
+    uint8_t *third_byte = add_offset_in_bytes(pointer, 2);
+    uint8_t *forth_byte = add_offset_in_bytes(pointer, 3);
+
+    printf("\n======== OBJECT START ========\n");
+
+    printf("Visiting object %d at %p in block at %p\n", block_counter, pointer, current);
+    printf("Object %d has descriptor at: %p\n", block_counter, descriptor);
+    printf("Object %d has size %d\n", block_counter, block_size(current));
+    printf("Object %d is of type %s and is %d bytes large\n", block_counter, name_of_descriptor(descriptor), descriptor->size);
+    printf("First 4 bytes:\n\t0x%02X\t0x%02X\t0x%02X\t0x%02X\n", *first_byte, *second_byte, *third_byte, *forth_byte);
+
+    printf("======== OBJECT END ========\n");
+    block_counter++;
+    size += descriptor->size;
+    current = next_block(current);
+  }
+
+  printf("\nObjects have a combined size of %d bytes and use %ld bytes\n\n", size, size + block_counter * BLOCK_OVERHEAD_IN_BYTES);
+  printf("======== ALL OBJECTS END ========\n");
+
+
+  printf("\n\n======== FREE LIST ========\n\n");
+  current = HEAP->free_list;
+  block_counter = 0;
+  size = 0;
+
+  while (current != NULL) {
+    TypeDescriptor *descriptor = current->descriptor;
+    printf("======== FREE BLOCK ========\n");
+
+    printf("Free block is located at %p\n", current);
+    printf("Size of free block %d: %d bytes\n", block_counter, descriptor->size);
+
+    printf("======== END FREE BLOCK ========\n");
+    block_counter++;
+    size += descriptor->size;
+    current = current->free.next;
+  }
+
+  printf("\nCurrently %d bytes are free (and thus available)\n", size);
+
+  printf("\n\n======== END FREE LIST ========\n\n");
 }

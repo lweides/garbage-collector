@@ -32,7 +32,7 @@ typedef struct Heap {
   The heap, containing additional information about the heap like size, etc.
   Has to be initialzed with init_heap(size) and freed using free_heap().
 */
-static Heap *HEAP;
+Heap *HEAP;
 
 /*
   Allocates a new memory block for the descriptor with the given name
@@ -60,11 +60,6 @@ void *alloc_size(uint32_t size);
 void gc(void **roots);
 
 /*
-  Frees the given pointer, returning it to the free list.
-*/
-void dealloc(void *pointer);
-
-/*
   Initializes the heap with the given size.
   Returns false if the allocation fails, true otherwise.
 */
@@ -79,6 +74,9 @@ void free_heap();
 /*
   Returns true if the given block is too small to fit the given size.
 */
-bool block_too_small(Block *block, uint32_t size);
+static bool block_too_small(Block *block, uint32_t size);
 
-Heap* get_heap();
+/*
+  Dumps the heap, printing all objects and the free list.
+*/
+void dump();

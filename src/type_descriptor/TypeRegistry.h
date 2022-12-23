@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -14,6 +16,7 @@ typedef struct TypeRegistryEntry {
 
   /*
     The typeDescriptor of this entry.
+    Will not be stored on the heap, thus is not part of the offset array
   */
   TypeDescriptor *descriptor;
 
@@ -24,12 +27,11 @@ typedef struct TypeRegistryEntry {
   char name[MAX_TYPE_NAME_LENGTH + 1];
 } TypeRegistryEntry;
 
-static TypeRegistryEntry *REGISTRY;
+TypeRegistryEntry *REGISTRY;
 
-static uint32_t RAW_ENTRY_DESCRIPTOR[4] = {
+static uint32_t RAW_ENTRY_DESCRIPTOR[3] = {
   sizeof(TypeRegistryEntry),
   offsetof(TypeRegistryEntry, next),
-  offsetof(TypeRegistryEntry, descriptor),
   SENTINEL
 };
 

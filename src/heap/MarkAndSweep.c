@@ -2,78 +2,60 @@
 #include "../type_descriptor/TypeRegistry.h"
 #include "../utils.h"
 
-#include <stdio.h>
-
 void mark(void *root) {
   Block* block = block_from_pointer(root);
   if (is_marked(block)) {
     return;
   }
-  TypeDescriptor *descriptor = block->descriptor;
-  printf("Current pointer is %p\n", root);
-  
+  TypeDescriptor *descriptor = block->descriptor;  
 
   set_marked(block);
 
-  // TODO mark current block
+  uintptr_t heap_start = HEAP->heap_start;
+  uintptr_t heap_end = heap_start + HEAP->heap_size;
 
   uint32_t counter = 0;
   uint32_t pointer_offset;
   while ((pointer_offset = next_pointer_offset(descriptor, &counter)) != SENTINEL) {
     uintptr_t *address_next_pointer = add_offset_in_bytes(root, pointer_offset);
-    printf("next_pointer: %p at %p\n", *address_next_pointer, address_next_pointer);
-    if (*address_next_pointer == NULL) {
-      continue;
+    uintptr_t next_pointer = *address_next_pointer;
+    if (heap_start <= next_pointer && next_pointer < heap_end) {
+      mark((void*) next_pointer);
     }
-    mark(*address_next_pointer); // TODO replace with DSW algorithm, maybe something with levels?
-    // TODO mark next_pointer and recurse
   }
 }
 
 void sweep(Heap *heap) {
+
+  heap->free_list = NULL;
   Block *current = (Block*) heap->heap_start;
+  Block *prev = NULL;
+
   uint32_t heap_size = heap->heap_size;
   uint64_t heap_end = heap->heap_start + heap_size;
   
   while ((uintptr_t) current < heap_end) {
-   
-    if (!is_marked(current)) {
-      dealloc(pointer_from_block(current));
+    if (is_marked(current)) {
+      clear_marked(current);
+      prev = current;
+      current = next_block(current);
+      continue;
     }
 
-    current = next_block(current);
-  }
-}
+    uint32_t block_size = current->descriptor->size;
+    current->descriptor = add_offset_in_bytes(current, sizeof(TypeDescriptor*));
+    current->descriptor->size = block_size;
 
-void traverse_heap_debug(Heap *heap) {
+    if (prev != NULL && is_free(prev)) {
+      prev->descriptor->size += current->descriptor->size + BLOCK_OVERHEAD_IN_BYTES;
+      current = next_block(current);
+      continue;
+    }
 
-  printf("======== HEAP START ========\n");
-
-  uint32_t heap_size = heap->heap_size;
-  uintptr_t heap_start = heap->heap_start;
-  uintptr_t heap_end = heap_start + heap_size;
-  printf("Heap starts at %#lx\n", heap_start);
-  printf("Heap has size %d\n", heap_size);
-  printf("Heap ends at %#lx\n", heap_end);
-
-  uint32_t block_counter = 0;
-  Block *current = heap->free_list;
-
-  while ((uintptr_t) current < heap_end) {
-    printf("\n======== BLOCK START ========\n");
-    printf("Visiting block %d at %p\n", block_counter, current);
-    printf("Distance to heap_end: %#lx\n", heap_end - (uintptr_t) current);
-    printf("Block %d has descriptor at: %p\n", block_counter, current->descriptor);
-    printf("Block %d has size %d\n", block_counter, block_size(current));
-    printf("Block %d contains a type of size %d\n", block_counter, current->descriptor->size);
-    printf("Block %d is free: %d\n", block_counter, is_free(current));
-    printf("Block %d contains type of name: \"%s\"\n", block_counter, name_of_descriptor(current->descriptor));
+    current->free.next = HEAP->free_list;
+    HEAP->free_list = current;
     
-
-    printf("======== BLOCK END ========\n");
-    block_counter++;
+    prev = current;
     current = next_block(current);
   }
-
-  printf("\n======== HEAP END ========\n\n\n");
 }

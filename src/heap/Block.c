@@ -2,8 +2,7 @@
 #include "../utils.h"
 
 bool is_marked(Block *block) {
-  uintptr_t pointer = (uintptr_t) get_type_descriptor(block);
-  return (pointer >> 1) & MARKED_BIT_MASK;
+  return (uintptr_t) block->descriptor & MARKED_BIT_MASK;
 }
 
 bool is_free(Block *block) {
@@ -12,7 +11,7 @@ bool is_free(Block *block) {
 }
 
 void set_marked(Block *block) {
-  uintptr_t pointer = (uintptr_t) get_type_descriptor(block);
+  uintptr_t pointer = (uintptr_t) block->descriptor;
   block->descriptor = (TypeDescriptor*) (pointer | MARKED_BIT_MASK);
 }
 
