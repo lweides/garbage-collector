@@ -14,6 +14,9 @@ int main() {
 
   register_types();
 
+  printf("Heap state after type registration\n");
+  dump();
+
   Lecture *system_software = alloc_by_name("lecture");
   system_software->id = 0;
   strcpy(system_software->name, "SystemSoftware");
