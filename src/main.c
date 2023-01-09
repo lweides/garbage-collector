@@ -83,6 +83,13 @@ int main() {
   printf("\n\nHeap state after removal of software_development_1\n");
   dump();
 
+  // we are still able to allocate after gc
+  alloc_by_name("lecture");
+  alloc_by_name("student");
+
+  printf("\n\nHeap state after allocating of lecture and student\n");
+  dump();
+
   void *roots_without_list[] = { NULL };
   gc(roots_without_list);
 
