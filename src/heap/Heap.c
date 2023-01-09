@@ -32,21 +32,6 @@ void* alloc_size(uint32_t size) {
   }
 
   uint32_t new_block_size = current->descriptor->size - size - BLOCK_OVERHEAD_IN_BYTES;
-  if (new_block_size <= MIN_BLOCK_SIZE_IN_BYTES) {
-    // resulting block would be too small, we use the whole block and accept the internal memory fragmentation
-
-    if (prev == NULL) {
-      // we found a match at the first entry of the free list and need to replace it
-      HEAP->free_list = current->free.next;
-    } else {
-      prev->free.next = current->free.next;
-    }
-
-    clear(current, size);
-    
-    return pointer_from_block(current);
-  }
-
   // split old block in two new blocks
   current->descriptor->size = new_block_size;
   Block *new_block = add_offset_in_bytes(current, new_block_size + BLOCK_OVERHEAD_IN_BYTES);
@@ -100,7 +85,7 @@ void free_heap() {
 }
 
 static bool block_too_small(Block *block, uint32_t size) {
-  return block->descriptor->size < size + BLOCK_OVERHEAD_IN_BYTES;
+  return ((int32_t) block->descriptor->size) - (int32_t) MIN_BLOCK_SIZE_IN_BYTES < (int32_t) size;
 }
 
 void dump() {
@@ -113,10 +98,32 @@ void dump() {
   printf("Heap has size %d\n", heap_size);
   printf("Heap ends at %#lx\n\n", heap_end);
 
-  printf("======== ALL OBJECTS ========\n");
+  printf("\n\n======== FREE LIST ========\n\n");
+  Block *current = HEAP->free_list;
   uint32_t block_counter = 0;
-  Block *current = (Block*) heap_start;
   uint32_t size = 0;
+
+  while (current != NULL) {
+    TypeDescriptor *descriptor = current->descriptor;
+    printf("======== FREE BLOCK ========\n");
+
+    printf("Free block is located at %p\n", current);
+    printf("Size of free block %d: %d bytes\n", block_counter, descriptor->size);
+
+    printf("======== END FREE BLOCK ========\n");
+    block_counter++;
+    size += descriptor->size;
+    current = current->free.next;
+  }
+
+  printf("\nCurrently %d bytes are free (and thus available)\n", size);
+
+  printf("\n\n======== END FREE LIST ========\n\n\n");
+
+  printf("======== ALL OBJECTS ========\n");
+  block_counter = 0;
+  current = (Block*) heap_start;
+  size = 0;
 
   while ((uintptr_t) current < heap_end) {
     if (is_free(current)) {
@@ -147,28 +154,5 @@ void dump() {
   }
 
   printf("\nObjects have a combined size of %d bytes and use %ld bytes\n\n", size, size + block_counter * BLOCK_OVERHEAD_IN_BYTES);
-  printf("======== ALL OBJECTS END ========\n");
-
-
-  printf("\n\n======== FREE LIST ========\n\n");
-  current = HEAP->free_list;
-  block_counter = 0;
-  size = 0;
-
-  while (current != NULL) {
-    TypeDescriptor *descriptor = current->descriptor;
-    printf("======== FREE BLOCK ========\n");
-
-    printf("Free block is located at %p\n", current);
-    printf("Size of free block %d: %d bytes\n", block_counter, descriptor->size);
-
-    printf("======== END FREE BLOCK ========\n");
-    block_counter++;
-    size += descriptor->size;
-    current = current->free.next;
-  }
-
-  printf("\nCurrently %d bytes are free (and thus available)\n", size);
-
-  printf("\n\n======== END FREE LIST ========\n\n");
+  printf("======== ALL OBJECTS END ========\n\n");
 }
