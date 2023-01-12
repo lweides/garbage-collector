@@ -1,0 +1,189 @@
+======== HEAP DUMP ========
+Heap starts at 0x55870c3d62a0
+Heap has size 32768
+Heap ends at 0x55870c3de2a0
+
+
+
+======== FREE LIST ========
+
+======== FREE BLOCK ========
+Free block is located at 0x55870c3de130
+Size of free block 0: 56 bytes
+======== END FREE BLOCK ========
+======== FREE BLOCK ========
+Free block is located at 0x55870c3de0e0
+Size of free block 1: 32 bytes
+======== END FREE BLOCK ========
+======== FREE BLOCK ========
+Free block is located at 0x55870c3de0a0
+Size of free block 2: 16 bytes
+======== END FREE BLOCK ========
+======== FREE BLOCK ========
+Free block is located at 0x55870c3de058
+Size of free block 3: 40 bytes
+======== END FREE BLOCK ========
+======== FREE BLOCK ========
+Free block is located at 0x55870c3ddfe8
+Size of free block 4: 16 bytes
+======== END FREE BLOCK ========
+======== FREE BLOCK ========
+Free block is located at 0x55870c3d62a0
+Size of free block 5: 32040 bytes
+======== END FREE BLOCK ========
+
+Currently 32200 bytes are free (and thus available)
+
+
+======== END FREE LIST ========
+
+
+======== ALL OBJECTS ========
+
+======== OBJECT START ========
+Visiting object 0 at 0x55870c3ddfd8 in block at 0x55870c3ddfd0
+Object 0 has descriptor at: 0x55870a4e1030
+Object 0 has size 24
+Object 0 is of type studentNode and is 16 bytes large
+First 4 bytes:
+	0x08	0xE0	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 1 at 0x55870c3de008 in block at 0x55870c3de000
+Object 1 has descriptor at: 0x55870a4e1030
+Object 1 has size 24
+Object 1 is of type studentNode and is 16 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 2 at 0x55870c3de020 in block at 0x55870c3de018
+Object 2 has descriptor at: 0x55870a4e1060
+Object 2 has size 16
+Object 2 is of type studentList and is 8 bytes large
+First 4 bytes:
+	0xD8	0xDF	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 3 at 0x55870c3de030 in block at 0x55870c3de028
+Object 3 has descriptor at: 0x55870a4e1020
+Object 3 has size 24
+Object 3 is of type lectureNode and is 16 bytes large
+First 4 bytes:
+	0x48	0xE0	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 4 at 0x55870c3de048 in block at 0x55870c3de040
+Object 4 has descriptor at: 0x55870a4e1020
+Object 4 has size 24
+Object 4 is of type lectureNode and is 16 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 5 at 0x55870c3de090 in block at 0x55870c3de088
+Object 5 has descriptor at: 0x55870a4e1020
+Object 5 has size 24
+Object 5 is of type lectureNode and is 16 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 6 at 0x55870c3de0c0 in block at 0x55870c3de0b8
+Object 6 has descriptor at: 0x55870a4e1010
+Object 6 has size 40
+Object 6 is of type student and is 32 bytes large
+First 4 bytes:
+	0x02	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 7 at 0x55870c3de110 in block at 0x55870c3de108
+Object 7 has descriptor at: 0x55870a4e1010
+Object 7 has size 40
+Object 7 is of type student and is 32 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 8 at 0x55870c3de178 in block at 0x55870c3de170
+Object 8 has descriptor at: 0x55870a4e1058
+Object 8 has size 32
+Object 8 is of type lecture and is 24 bytes large
+First 4 bytes:
+	0x01	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 9 at 0x55870c3de198 in block at 0x55870c3de190
+Object 9 has descriptor at: 0x55870a4e1058
+Object 9 has size 32
+Object 9 is of type lecture and is 24 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 10 at 0x55870c3de1b8 in block at 0x55870c3de1b0
+Object 10 has descriptor at: 0x55870a4e1040
+Object 10 has size 40
+Object 10 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 11 at 0x55870c3de1e0 in block at 0x55870c3de1d8
+Object 11 has descriptor at: 0x55870a4e1040
+Object 11 has size 40
+Object 11 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0xB8	0xE1	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 12 at 0x55870c3de208 in block at 0x55870c3de200
+Object 12 has descriptor at: 0x55870a4e1040
+Object 12 has size 40
+Object 12 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0xE0	0xE1	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 13 at 0x55870c3de230 in block at 0x55870c3de228
+Object 13 has descriptor at: 0x55870a4e1040
+Object 13 has size 40
+Object 13 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x08	0xE2	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 14 at 0x55870c3de258 in block at 0x55870c3de250
+Object 14 has descriptor at: 0x55870a4e1040
+Object 14 has size 40
+Object 14 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x30	0xE2	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 15 at 0x55870c3de280 in block at 0x55870c3de278
+Object 15 has descriptor at: 0x55870a4e1040
+Object 15 has size 40
+Object 15 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x58	0xE2	0x3D	0x0C
+======== OBJECT END ========
+
+Objects have a combined size of 392 bytes and use 520 bytes
+
+======== ALL OBJECTS END ========

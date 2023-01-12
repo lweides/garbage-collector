@@ -1,0 +1,79 @@
+======== HEAP DUMP ========
+Heap starts at 0x55870c3d62a0
+Heap has size 32768
+Heap ends at 0x55870c3de2a0
+
+
+
+======== FREE LIST ========
+
+======== FREE BLOCK ========
+Free block is located at 0x55870c3d62a0
+Size of free block 0: 32520 bytes
+======== END FREE BLOCK ========
+
+Currently 32520 bytes are free (and thus available)
+
+
+======== END FREE LIST ========
+
+
+======== ALL OBJECTS ========
+
+======== OBJECT START ========
+Visiting object 0 at 0x55870c3de1b8 in block at 0x55870c3de1b0
+Object 0 has descriptor at: 0x55870a4e1040
+Object 0 has size 40
+Object 0 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 1 at 0x55870c3de1e0 in block at 0x55870c3de1d8
+Object 1 has descriptor at: 0x55870a4e1040
+Object 1 has size 40
+Object 1 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0xB8	0xE1	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 2 at 0x55870c3de208 in block at 0x55870c3de200
+Object 2 has descriptor at: 0x55870a4e1040
+Object 2 has size 40
+Object 2 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0xE0	0xE1	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 3 at 0x55870c3de230 in block at 0x55870c3de228
+Object 3 has descriptor at: 0x55870a4e1040
+Object 3 has size 40
+Object 3 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x08	0xE2	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 4 at 0x55870c3de258 in block at 0x55870c3de250
+Object 4 has descriptor at: 0x55870a4e1040
+Object 4 has size 40
+Object 4 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x30	0xE2	0x3D	0x0C
+======== OBJECT END ========
+
+======== OBJECT START ========
+Visiting object 5 at 0x55870c3de280 in block at 0x55870c3de278
+Object 5 has descriptor at: 0x55870a4e1040
+Object 5 has size 40
+Object 5 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x58	0xE2	0x3D	0x0C
+======== OBJECT END ========
+
+Objects have a combined size of 192 bytes and use 240 bytes
+
+======== ALL OBJECTS END ========

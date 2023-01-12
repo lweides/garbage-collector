@@ -1,0 +1,34 @@
+======== HEAP DUMP ========
+Heap starts at 0x55870c3d62a0
+Heap has size 32768
+Heap ends at 0x55870c3de2a0
+
+
+
+======== FREE LIST ========
+
+======== FREE BLOCK ========
+Free block is located at 0x55870c3d62a0
+Size of free block 0: 32720 bytes
+======== END FREE BLOCK ========
+
+Currently 32720 bytes are free (and thus available)
+
+
+======== END FREE LIST ========
+
+
+======== ALL OBJECTS ========
+
+======== OBJECT START ========
+Visiting object 0 at 0x55870c3de280 in block at 0x55870c3de278
+Object 0 has descriptor at: 0x55870a4e1040
+Object 0 has size 40
+Object 0 is of type regEntryTyp and is 32 bytes large
+First 4 bytes:
+	0x00	0x00	0x00	0x00
+======== OBJECT END ========
+
+Objects have a combined size of 32 bytes and use 40 bytes
+
+======== ALL OBJECTS END ========
