@@ -1,4 +1,4 @@
-TARGET ?= debug
+TARGET ?= gc
 SRC_DIRS ?= ./src
 
 SRCS := $(shell find $(SRC_DIRS) -name *.c -or -name *.s)
@@ -10,7 +10,7 @@ CC := gcc
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -O0 -g
+CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -O3
 
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $@ $(LOADLIBES) $(LDLIBS)
